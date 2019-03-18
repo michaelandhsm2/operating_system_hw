@@ -7,7 +7,6 @@
 #include <queue>
 #include <pthread.h>
 #include <time.h>
-#include "iterator.h"
 #include "task.h"
 #include "queue.h"
 
@@ -18,19 +17,6 @@ static void *thread_init(void *queue){
 
 class Scheduler{
 public:
-
-  class TaskIterator : public Iterator<Task *> {
-  public:
-    TaskIterator(Scheduler * scheduler){_scheduler = scheduler;}
-    void first() { _currentPosition = _scheduler->_vTask.begin(); }
-    void next() { ++_currentPosition; }
-    bool isDone() const { return (_currentPosition == _scheduler->_vTask.end()); }
-    Task *currentItem() {return *_currentPosition;}
-  private:
-    Scheduler * _scheduler;
-    std::vector<Task *>::iterator _currentPosition;
-  };
-
   Scheduler(){
     _queue = new Queue(&_qTask);
     pthread_create (&thread, NULL, thread_init, (void *)_queue);
@@ -44,16 +30,13 @@ public:
     _qTask.push(task);
   }
 
-  void addDelayedTask(){
+  void addDelayedTask(Task * task, int seconds){
 
   }
 
-  void checkTask(){
+  // 走過所有的tasks並且呼叫printStatus
+  void printAllTaskStatus(){
 
-  }
-
-  Iterator<Task *> *listTask(){
-    return new TaskIterator(this);
   }
 
 private:
