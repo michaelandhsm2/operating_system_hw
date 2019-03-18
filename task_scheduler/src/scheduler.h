@@ -30,6 +30,8 @@ public:
     _qTask.push(task);
   }
 
+  // 丟近來後開一個子process並且把task, 自己本身 與 seconds 帶進去
+  // 在子process內sleep，直到時間到時再呼叫 addTask
   void addDelayedTask(Task * task, int seconds){
 
   }
