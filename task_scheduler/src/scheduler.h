@@ -11,6 +11,11 @@
 #include "task.h"
 #include "queue.h"
 
+static void *thread_init(void *queue){
+  Queue *_queue = (Queue *)queue;
+  _queue->loop();
+}
+
 class Scheduler{
 public:
 
@@ -27,8 +32,8 @@ public:
   };
 
   Scheduler(){
-    _queue = new Queue(_qTask);
-    pthread_create (&thread, NULL, thread_init, (void *)NULL);
+    _queue = new Queue(&_qTask);
+    pthread_create (&thread, NULL, thread_init, (void *)_queue);
   }
 
   ~Scheduler(){
@@ -54,12 +59,8 @@ public:
 private:
   std::vector<Task *> _vTask;
   std::queue <Task *> _qTask;
-  static Queue *_queue;
+  Queue *_queue;
   pthread_t thread;
-
-  static void *thread_init(void *id){
-    _queue->loop();
-  }
 };
 
 #endif

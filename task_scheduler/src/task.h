@@ -4,18 +4,21 @@
 class Task{
 public:
   char *args[40];
+  char *_line;
 
   Task(char *line){
+    _line = line;
     time(&created_at);
+    printTime("Creating", created_at);
     parse(line, args);
   }
 
   void execute(){
-    char string_time[80];
-    strftime(string_time, sizeof(string_time), "%a %Y-%m-%d %H:%M:%S %Z", localtime(&created_at));
-    printf("Executing command created at %s", string_time);
-    execvp(args[0], args);
-    printf("Finished command created at %s", string_time);
+    time(&initiated_at);
+    printTime("Executing", initiated_at);
+    system(_line);
+    time(&finished_at);
+    printTime("Finished", finished_at);
   }
 
   int getRuntime(){
@@ -30,6 +33,12 @@ private:
   time_t created_at;
   time_t initiated_at;
   time_t finished_at;
+
+  void printTime(char const *string, time_t time){
+    char string_time[80];
+    strftime(string_time, sizeof(string_time), "%a %Y-%m-%d %H:%M:%S %Z", localtime(&time));
+    printf("%s - %s command '%s'\n", string_time, string, _line);
+  }
 
   void parse(char *line, char **argv){
     while (*line != '\0') {       /* if not the end of line ....... */

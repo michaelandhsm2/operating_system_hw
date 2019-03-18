@@ -15,8 +15,8 @@ int main(void)
 	char line[1024];
 	char *args[80];
 	while(1){
-		printf("\n>");
 		fflush(stdout);
+		printf("\n>");
 		scanf("%s", line);
 		printf("\n");
 		Task *task = new Task(line);
