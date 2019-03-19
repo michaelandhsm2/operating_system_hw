@@ -9,6 +9,7 @@
 #include <time.h>
 #include "task.h"
 #include "queue.h"
+#include "timer.h"
 
 static void *thread_init(void *queue){
   Queue *_queue = (Queue *)queue;
@@ -27,23 +28,32 @@ public:
   }
 
   void addTask(Task * task){
+    _vTask.push_back(task);
     _qTask.push(task);
   }
 
-  void addDelayedTask(Task * task, int seconds){
 
+    // 丟近來後開一個子process並且把task, 自己本身 與 seconds 帶進去
+    // 在子process內sleep，直到時間到時再呼叫 addTask
+  void addDelayedTask(Task * task, int seconds){
+    _vTask.push_back(task);
+    time = new Timer(&seconds, task);
   }
 
   // 走過所有的tasks並且呼叫printStatus
   void printAllTaskStatus(){
-
+    for (int i = 0; i < _vTask.size() ; i++){
+      _vTask[i] -> execute();
+      _vTask[i] -> printStatus();
+    }
   }
 
 private:
   std::vector<Task *> _vTask;
-  std::queue <Task *> _qTask;
+  // std::queue <Task *> _qTask;
   Queue *_queue;
   pthread_t thread;
+  Timer *time;
 };
 
 #endif

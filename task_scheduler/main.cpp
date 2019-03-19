@@ -29,7 +29,7 @@ int main(void)
 		if( strcmp(task->args[0], "exit") == 0 ){
 			exit(0);
 		}else{
-			scheduler->addTask(task);
+			scheduler->addDelayedTask(task, 6);
 		}
 	}
 	return 0;
