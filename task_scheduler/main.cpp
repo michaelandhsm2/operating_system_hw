@@ -16,20 +16,24 @@
 int main(void)
 {
 	Scheduler *scheduler = new Scheduler();
-
+	printf("\n┎‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐┑");
+	printf("\n   使用說明：" );
+	printf("\n   * 直接輸入欲執行的指令" );
+	printf("\n   * Finished後可直接再次輸入" );
+	printf("\n   * 欲離開請輸入exit" );
+	printf("\n┕‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐┙");
+	printf("\n\n開始輸入指令>\n ");
 	char line[1024];
 	char *args[80];
 	while(1){
 		fflush(stdout);
-		printf("\n>");
 		scanf("%s", line);
-		printf("\n");
 		Task *task = new Task(line);
 
 		if( strcmp(task->args[0], "exit") == 0 ){
 			exit(0);
 		}else{
-			scheduler->addDelayedTask(task, 6);
+			scheduler->addTask(task);
 		}
 	}
 	return 0;
