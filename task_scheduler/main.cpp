@@ -20,12 +20,17 @@ int main(void)
 	printf("\n   使用說明：" );
 	printf("\n   * 直接輸入欲執行的指令" );
 	printf("\n   * Finished後可直接再次輸入" );
-	printf("\n   * 欲離開請輸入exit" );
+	printf("\n   特定指令說明：" );
+	printf("\n   * list：列出每個task的狀態" );
+	printf("\n   * delay：指令在指定時間後進行" );
+	printf("\n   * exit：離開" );
 	printf("\n┕‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐┙");
 	printf("\n\n開始輸入指令>\n ");
 	char line[1024];
 	char *args[80];
+	std::string strDelay="delay";
 	int seconds;
+
 	while(1){
 		fflush(stdout);
 		scanf("%s", line);
@@ -34,7 +39,11 @@ int main(void)
 		if( strcmp(task->args[0], "exit") == 0 ){
 			exit(0);
 		}
-		else if( strcmp(task->args[0], "delay {seconds} {command}") == 0 ){
+		else if( strcmp(task->args[0], "delay") == 0 ){
+			printf("請輸入要執行delay的指令>\n" );
+			scanf("%s", task);
+			printf("請輸入要執行delay的秒數>\n" );
+			scanf("%d", seconds);
 			scheduler->addDelayedTask(task,seconds);
 		}
 		else if( strcmp(task->args[0], "list") == 0 ){
