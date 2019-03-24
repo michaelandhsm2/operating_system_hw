@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <string.h>
-
+#include "src/task.h"
 #include "src/scheduler.h"
 
 // 1. 這邊在開始loop前加些說明文字解釋如何使用 (ie.打exit可以離開等)
@@ -25,6 +25,7 @@ int main(void)
 	printf("\n\n開始輸入指令>\n ");
 	char line[1024];
 	char *args[80];
+	int seconds;
 	while(1){
 		fflush(stdout);
 		scanf("%s", line);
@@ -32,7 +33,14 @@ int main(void)
 
 		if( strcmp(task->args[0], "exit") == 0 ){
 			exit(0);
-		}else{
+		}
+		else if( strcmp(task->args[0], "delay {seconds} {command}") == 0 ){
+			scheduler->addDelayedTask(task,seconds);
+		}
+		else if( strcmp(task->args[0], "list") == 0 ){
+			scheduler->printAllTaskStatus();
+		}
+		else{
 			scheduler->addTask(task);
 		}
 	}
