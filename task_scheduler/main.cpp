@@ -3,6 +3,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <unistd.h>
+#include <iostream>
 #include <sys/types.h>
 #include <string.h>
 #include "src/task.h"
@@ -25,32 +26,39 @@ int main(void)
 	printf("\n   * exit：離開" );
 	printf("\n┕‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐┙");
 	printf("\n\n開始輸入指令>\n ");
-	char line[1024];
+	char *line;
 	char *args[80];
+	std::string s;
 	std::string strDelay="delay";
 	int seconds;
 
 	while(1){
 		fflush(stdout);
-		scanf("%s", line);
-		Task *task = new Task(line);
+		// scanf("%[^\n]%*c", line);
+		getline(std::cin, s);
+		line = (char*)s.c_str();
+		if(strcmp(line, "") != 0){
+			Task *task = new Task(line);
 
-		if( strcmp(task->args[0], "exit") == 0 ){
-			exit(0);
-		}
-		else if( strcmp(task->args[0], "delay") == 0 ){
-			printf("請輸入要執行delay的指令>\n" );
-			scanf("%s", line);
-			printf("請輸入要執行delay的秒數>\n" );
-			scanf("%d", &seconds);
-			task = new Task(line);
-			scheduler->addDelayedTask(task, seconds);
-		}
-		else if( strcmp(task->args[0], "list") == 0 ){
-			scheduler->printAllTaskStatus();
-		}
-		else{
-			scheduler->addTask(task);
+			if( strcmp(task->args[0], "exit") == 0 ){
+				exit(0);
+			}
+			else if( strcmp(task->args[0], "delay") == 0 ){
+				printf("請輸入要執行delay的指令>\n" );
+				fflush(stdout);
+				getline(std::cin, s);
+				line = (char*)s.c_str();
+				printf("請輸入要執行delay的秒數>\n" );
+				scanf("%d", &seconds);
+				task = new Task(line);
+				scheduler->addDelayedTask(task, seconds);
+			}
+			else if( strcmp(task->args[0], "list") == 0 ){
+				scheduler->printAllTaskStatus();
+			}
+			else{
+				scheduler->addTask(task);
+			}
 		}
 	}
 	return 0;

@@ -35,6 +35,7 @@ public:
     // 丟近來後開一個子process並且把task, 自己本身 與 seconds 帶進去
     // 在子process內sleep，直到時間到時再呼叫 addTask
   void addDelayedTask(Task * task, int seconds){
+    task->isDelayed = true;
     _vTask.push_back(task);
     time = new Timer(&seconds, task);
   }
@@ -42,9 +43,12 @@ public:
   // 走過所有的tasks並且呼叫printStatus
   void printAllTaskStatus(){
     for (int i = 0; i < _vTask.size() ; i++){
-      _vTask[i] -> execute();
       _vTask[i] -> printStatus();
     }
+    if(_vTask.size() > 0)
+      printf("------------------\n");
+    else
+      printf("There is no history records available.\n");
   }
 
 private:
