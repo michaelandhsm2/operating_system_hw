@@ -19,7 +19,6 @@ int main(void)
 	printf("\n┎‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐┑");
 	printf("\n   使用說明：" );
 	printf("\n   * 直接輸入欲執行的指令" );
-	printf("\n   * Finished後可直接再次輸入" );
 	printf("\n   特定指令說明：" );
 	printf("\n   * list：列出每個task的狀態" );
 	printf("\n   * delay：指令在指定時間後進行" );
@@ -41,10 +40,11 @@ int main(void)
 		}
 		else if( strcmp(task->args[0], "delay") == 0 ){
 			printf("請輸入要執行delay的指令>\n" );
-			scanf("%s", task);
+			scanf("%s", line);
 			printf("請輸入要執行delay的秒數>\n" );
-			scanf("%d", seconds);
-			scheduler->addDelayedTask(task,seconds);
+			scanf("%d", &seconds);
+			task = new Task(line);
+			scheduler->addDelayedTask(task, seconds);
 		}
 		else if( strcmp(task->args[0], "list") == 0 ){
 			scheduler->printAllTaskStatus();
