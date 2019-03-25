@@ -11,7 +11,7 @@ public:
 
   Task(char *line){
     _line = line;
-    created_at = high_resolution_clock::now();
+    created_at = system_clock::now();
     printTime("Creating", created_at);
     parse(line, args);
   }
@@ -20,10 +20,10 @@ public:
   // 他是正常指令，他是定時指令(前面兩個args是"delay"跟秒數)，跟他是"list"(要吐所有的proecess)
   // 你需要改一下system(_line)這邊，讓他能夠忽略list,然後定時指令時從第三個args開始丟
   void execute(){
-    initiated_at = high_resolution_clock::now();
+    initiated_at = system_clock::now();
     printTime("Executing", initiated_at);
     system(_line);
-    finished_at = high_resolution_clock::now();
+    finished_at = system_clock::now();
     printTime("Finished", finished_at);
   }
 
@@ -33,9 +33,9 @@ public:
   }
 
 private:
-  high_resolution_clock::time_point created_at;
-  high_resolution_clock::time_point initiated_at;
-  high_resolution_clock::time_point finished_at;
+  system_clock::time_point created_at;
+  system_clock::time_point initiated_at;
+  system_clock::time_point finished_at;
 
   // 從process開始執行到完成所需秒數
   double getRuntime(){
@@ -47,8 +47,8 @@ private:
 
   }
 
-  void printTime(char const *string, high_resolution_clock::time_point time_point){
-    time_t time = std::chrono::system_clock::to_time_t(time_point);
+  void printTime(char const *string, system_clock::time_point time_point){
+    time_t time = system_clock::to_time_t(time_point);
     char string_time[80];
     strftime(string_time, sizeof(string_time), "%a %Y-%m-%d %H:%M:%S %Z", localtime(&time));
     printf("%s - %s command '%s'\n", string_time, string, _line);

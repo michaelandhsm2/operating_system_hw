@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <string.h>
-
+#include "src/task.h"
 #include "src/scheduler.h"
 
 // 1. 這邊在開始loop前加些說明文字解釋如何使用 (ie.打exit可以離開等)
@@ -16,20 +16,41 @@
 int main(void)
 {
 	Scheduler *scheduler = new Scheduler();
-
+	printf("\n┎‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐┑");
+	printf("\n   使用說明：" );
+	printf("\n   * 直接輸入欲執行的指令" );
+	printf("\n   特定指令說明：" );
+	printf("\n   * list：列出每個task的狀態" );
+	printf("\n   * delay：指令在指定時間後進行" );
+	printf("\n   * exit：離開" );
+	printf("\n┕‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐┙");
+	printf("\n\n開始輸入指令>\n ");
 	char line[1024];
 	char *args[80];
+	std::string strDelay="delay";
+	int seconds;
+
 	while(1){
 		fflush(stdout);
-		printf("\n>");
 		scanf("%s", line);
-		printf("\n");
 		Task *task = new Task(line);
 
 		if( strcmp(task->args[0], "exit") == 0 ){
 			exit(0);
-		}else{
-			scheduler->addDelayedTask(task, 6);
+		}
+		else if( strcmp(task->args[0], "delay") == 0 ){
+			printf("請輸入要執行delay的指令>\n" );
+			scanf("%s", line);
+			printf("請輸入要執行delay的秒數>\n" );
+			scanf("%d", &seconds);
+			task = new Task(line);
+			scheduler->addDelayedTask(task, seconds);
+		}
+		else if( strcmp(task->args[0], "list") == 0 ){
+			scheduler->printAllTaskStatus();
+		}
+		else{
+			scheduler->addTask(task);
 		}
 	}
 	return 0;
