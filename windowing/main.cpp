@@ -7,20 +7,20 @@
 
 int main(void)
 {
-	// printf("\n┎‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐┑");
-	// printf("\n   使用說明：" );
-	// printf("\n   * 直接輸入欲執行的指令" );
-	// printf("\n   特定指令說明：" );
-	// printf("\n   * list：列出每個task的狀態" );
-	// printf("\n   * delay：指令在指定時間後進行" );
-	// printf("\n   * exit：離開" );
-	// printf("\n┕‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐┙");
+	printf("\n┎‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐-------------------‐‐‐┑");
+	printf("\n   使用說明：" );
+	printf("\n   * 先輸入Window Size，再輸入數字以及欲執行的指令" );
+	printf("\n   * 數字以空格或換行作為區隔。例: 2 3 88" );
+	printf("\n   特定指令說明：" );
+	printf("\n   * list：列出每個task的狀態" );
+	printf("\n   * exit：離開" );
+	printf("\n┕‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐-----------------‐‐‐‐‐‐--‐‐┙");
 
 	int window_size;
-	printf("請輸入Sliding Window的Window Size: ");
+	printf("\n請輸入Sliding Window的Window Size: ");
 	scanf("%d", &window_size);
 
-
+	printf("\n* 請輸入 數字 或 list \n");
 	Processor *processor = new Processor(window_size);
 
 	// printf("\n\n開始輸入指令\n ");
