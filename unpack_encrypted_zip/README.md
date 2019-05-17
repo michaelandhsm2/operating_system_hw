@@ -1,6 +1,6 @@
-#Unpack Encrypted Zip
+# Unpack Encrypted Zip
 
-##Analyze problems of false positive
+## Analyze problems of false positive
 
 - 有1：256的概率會在給錯誤密碼時，通過了header test，進而顯示該密碼為正確的，然而因提取數據生成錯誤的CRC，所以仍無法解壓縮
 - 這其實是PKWARE zipfile的一個安全功能，有助於防止像這次作業要求的暴力破解
